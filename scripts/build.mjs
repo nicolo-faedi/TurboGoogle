@@ -29,7 +29,7 @@ await build({
   charset: 'utf8',
 });
 
-const files = ['manifest.json', 'newtab.html'];
+const files = ['manifest.json', 'newtab.html', 'background.js'];
 await Promise.all(files.map((file) => cp(path.join(root, file), path.join(dist, file))));
 await cp(path.join(root, '_locales'), path.join(dist, '_locales'), { recursive: true });
 await mkdir(path.join(dist, 'assets/icons'), { recursive: true });
