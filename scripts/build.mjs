@@ -29,9 +29,11 @@ await build({
   charset: 'utf8',
 });
 
-const files = ['manifest.json', 'newtab.html', 'icon.svg', 'icon16.png', 'icon32.png', 'icon48.png', 'icon128.png'];
+const files = ['manifest.json', 'newtab.html'];
 await Promise.all(files.map((file) => cp(path.join(root, file), path.join(dist, file))));
 await cp(path.join(root, '_locales'), path.join(dist, '_locales'), { recursive: true });
+await mkdir(path.join(dist, 'assets/icons'), { recursive: true });
+await Promise.all(['icon.svg', 'icon16.png', 'icon32.png', 'icon48.png', 'icon128.png'].map((file) => cp(path.join(root, 'assets/icons', file), path.join(dist, 'assets/icons', file))));
 await mkdir(path.join(dist, 'assets/fonts'), { recursive: true });
 await cp(path.join(root, 'assets/fonts/Sorean-Bold.woff2'), path.join(dist, 'assets/fonts/Sorean-Bold.woff2'));
 

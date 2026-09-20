@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="icon128.png" alt="TurboGoogle logo" width="96">
+<img src="assets/icons/icon128.png" alt="TurboGoogle logo" width="96">
 
 # TurboGoogle
 
