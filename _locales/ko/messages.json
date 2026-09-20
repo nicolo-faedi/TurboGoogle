@@ -1,0 +1,19 @@
+{
+  "description": { "message": "무제한 바로가기, 파비콘, 다크/라이트 테마와 로컬 데이터를 지원하는 간단한 Chrome 새 탭입니다." },
+  "animation": { "message": "텍스트 애니메이션" },
+  "showLogo": { "message": "로고 표시" },
+  "savedLogo": { "message": "로고가 업데이트되었습니다" },
+  "language": { "message": "언어" },
+  "automatic": { "message": "자동" },
+  "iconSize": { "message": "아이콘 크기" },
+  "savedLanguage": { "message": "언어가 업데이트되었습니다" },
+  "savedIconSize": { "message": "아이콘 크기가 업데이트되었습니다" },
+  "savedAnimation": { "message": "애니메이션이 업데이트되었습니다" },
+  "newTabTitle": { "message": "새 탭" },
+  "searchPlaceholder": { "message": "Google에서 검색하거나 URL을 입력하세요" },
+  "addShortcut": { "message": "바로가기 추가" }, "addShortcutTitle": { "message": "바로가기 추가" }, "addShortcutDialog": { "message": "바로가기 추가" }, "editShortcutDialog": { "message": "바로가기 수정" },
+  "name": { "message": "이름" }, "url": { "message": "URL" }, "finish": { "message": "완료" }, "cancel": { "message": "취소" }, "close": { "message": "닫기" }, "edit": { "message": "수정" }, "delete": { "message": "삭제" },
+  "customizeTitle": { "message": "TurboGoogle 맞춤설정" }, "write": { "message": "문구" }, "mode": { "message": "모드" }, "dark": { "message": "어두운 테마" }, "light": { "message": "밝은 테마" }, "textColor": { "message": "문구 색상" }, "restore": { "message": "복원" }, "savedText": { "message": "문구가 업데이트되었습니다" }, "savedColor": { "message": "색상이 업데이트되었습니다" }, "savedMode": { "message": "$mode$ 모드", "placeholders": { "mode": { "content": "$1" } } }, "restored": { "message": "설정이 복원되었습니다" }, "invalidUrl": { "message": "유효한 URL을 입력하세요." },
+  "shortcutTitle": { "message": "$name$ — 드래그하여 순서 변경", "placeholders": { "name": { "content": "$1" } } }, "editShortcutLabel": { "message": "$name$ 수정", "placeholders": { "name": { "content": "$1" } } },
+  "folderDefaultName": { "message": "폴더" }, "folderCreated": { "message": "폴더가 생성되었습니다" }, "openFolder": { "message": "$name$ 폴더 열기", "placeholders": { "name": { "content": "$1" } } }, "editFolderLabel": { "message": "$name$ 폴더 수정", "placeholders": { "name": { "content": "$1" } } }, "separateFolder": { "message": "폴더 분리" }, "confirmDeleteFolder": { "message": "이 폴더와 안의 모든 바로가기를 삭제할까요?" }, "folderDeleted": { "message": "폴더가 삭제되었습니다" }, "folderSeparated": { "message": "폴더가 분리되었습니다" }, "folderRenamed": { "message": "폴더 이름이 변경되었습니다" }, "renameFolder": { "message": "폴더 이름 변경" }, "folderName": { "message": "폴더 이름" }, "moveOutsideFolder": { "message": "폴더에서 꺼내기" }, "movedOutsideFolder": { "message": "바로가기를 폴더에서 꺼냈습니다" }
+}

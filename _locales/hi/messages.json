@@ -1,0 +1,17 @@
+{
+  "description": { "message": "अनलिमिटेड शॉर्टकट, फ़ेविकॉन, डार्क/लाइट थीम और स्थानीय डेटा वाला सरल Chrome नया टैब।" },
+  "animation": { "message": "टेक्स्ट एनिमेशन" },
+  "showLogo": { "message": "लोगो दिखाएँ" },
+  "savedLogo": { "message": "लोगो अपडेट किया गया" },
+  "language": { "message": "भाषा" },
+  "automatic": { "message": "स्वचालित" },
+  "iconSize": { "message": "आइकन का आकार" },
+  "savedLanguage": { "message": "भाषा अपडेट की गई" },
+  "savedIconSize": { "message": "आइकन का आकार अपडेट किया गया" },
+  "savedAnimation": { "message": "एनिमेशन अपडेट किया गया" },
+  "newTabTitle": { "message": "नया टैब" }, "searchPlaceholder": { "message": "Google पर खोजें या URL टाइप करें" }, "addShortcut": { "message": "शॉर्टकट जोड़ें" }, "addShortcutTitle": { "message": "शॉर्टकट जोड़ें" }, "addShortcutDialog": { "message": "शॉर्टकट जोड़ें" }, "editShortcutDialog": { "message": "शॉर्टकट संपादित करें" },
+  "name": { "message": "नाम" }, "url": { "message": "URL" }, "finish": { "message": "पूरा करें" }, "cancel": { "message": "रद्द करें" }, "close": { "message": "बंद करें" }, "edit": { "message": "संपादित करें" }, "delete": { "message": "हटाएं" },
+  "customizeTitle": { "message": "TurboGoogle को कस्टमाइज़ करें" }, "write": { "message": "टेक्स्ट" }, "mode": { "message": "मोड" }, "dark": { "message": "डार्क" }, "light": { "message": "लाइट" }, "textColor": { "message": "टेक्स्ट का रंग" }, "restore": { "message": "पुनर्स्थापित करें" }, "savedText": { "message": "टेक्स्ट अपडेट किया गया" }, "savedColor": { "message": "रंग अपडेट किया गया" }, "savedMode": { "message": "$mode$ मोड", "placeholders": { "mode": { "content": "$1" } } }, "restored": { "message": "सेटिंग्स पुनर्स्थापित की गईं" }, "invalidUrl": { "message": "मान्य URL दर्ज करें।" },
+  "shortcutTitle": { "message": "$name$ — क्रम बदलने के लिए खींचें", "placeholders": { "name": { "content": "$1" } } }, "editShortcutLabel": { "message": "$name$ संपादित करें", "placeholders": { "name": { "content": "$1" } } },
+  "folderDefaultName": { "message": "फ़ोल्डर" }, "folderCreated": { "message": "फ़ोल्डर बनाया गया" }, "openFolder": { "message": "$name$ फ़ोल्डर खोलें", "placeholders": { "name": { "content": "$1" } } }, "editFolderLabel": { "message": "$name$ फ़ोल्डर संपादित करें", "placeholders": { "name": { "content": "$1" } } }, "separateFolder": { "message": "फ़ोल्डर अलग करें" }, "confirmDeleteFolder": { "message": "क्या इस फ़ोल्डर और इसमें मौजूद सभी शॉर्टकट को हटाना है?" }, "folderDeleted": { "message": "फ़ोल्डर हटाया गया" }, "folderSeparated": { "message": "फ़ोल्डर अलग किया गया" }, "folderRenamed": { "message": "फ़ोल्डर का नाम बदला गया" }, "renameFolder": { "message": "फ़ोल्डर का नाम बदलें" }, "folderName": { "message": "फ़ोल्डर का नाम" }, "moveOutsideFolder": { "message": "फ़ोल्डर से बाहर ले जाएं" }, "movedOutsideFolder": { "message": "शॉर्टकट फ़ोल्डर से बाहर ले जाया गया" }
+}

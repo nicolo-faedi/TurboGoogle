@@ -1,0 +1,17 @@
+{
+  "description": { "message": "無制限のショートカット、ファビコン、ダーク/ライトテーマ、ローカルデータに対応したシンプルなChrome新しいタブです。" },
+  "animation": { "message": "文字アニメーション" },
+  "showLogo": { "message": "ロゴを表示" },
+  "savedLogo": { "message": "ロゴを更新しました" },
+  "language": { "message": "言語" },
+  "automatic": { "message": "自動" },
+  "iconSize": { "message": "アイコンサイズ" },
+  "savedLanguage": { "message": "言語を更新しました" },
+  "savedIconSize": { "message": "アイコンサイズを更新しました" },
+  "savedAnimation": { "message": "アニメーションを更新しました" },
+  "newTabTitle": { "message": "新しいタブ" }, "searchPlaceholder": { "message": "Googleで検索またはURLを入力" }, "addShortcut": { "message": "ショートカットを追加" }, "addShortcutTitle": { "message": "ショートカットを追加" }, "addShortcutDialog": { "message": "ショートカットを追加" }, "editShortcutDialog": { "message": "ショートカットを編集" },
+  "name": { "message": "名前" }, "url": { "message": "URL" }, "finish": { "message": "完了" }, "cancel": { "message": "キャンセル" }, "close": { "message": "閉じる" }, "edit": { "message": "編集" }, "delete": { "message": "削除" },
+  "customizeTitle": { "message": "TurboGoogleをカスタマイズ" }, "write": { "message": "テキスト" }, "mode": { "message": "モード" }, "dark": { "message": "ダーク" }, "light": { "message": "ライト" }, "textColor": { "message": "文字色" }, "restore": { "message": "復元" }, "savedText": { "message": "テキストを更新しました" }, "savedColor": { "message": "色を更新しました" }, "savedMode": { "message": "$mode$モード", "placeholders": { "mode": { "content": "$1" } } }, "restored": { "message": "設定を復元しました" }, "invalidUrl": { "message": "有効なURLを入力してください。" },
+  "shortcutTitle": { "message": "$name$ — ドラッグして並べ替え", "placeholders": { "name": { "content": "$1" } } }, "editShortcutLabel": { "message": "$name$を編集", "placeholders": { "name": { "content": "$1" } } },
+  "folderDefaultName": { "message": "フォルダ" }, "folderCreated": { "message": "フォルダを作成しました" }, "openFolder": { "message": "$name$フォルダを開く", "placeholders": { "name": { "content": "$1" } } }, "editFolderLabel": { "message": "$name$フォルダを編集", "placeholders": { "name": { "content": "$1" } } }, "separateFolder": { "message": "フォルダを分割" }, "confirmDeleteFolder": { "message": "このフォルダと中のすべてのショートカットを削除しますか？" }, "folderDeleted": { "message": "フォルダを削除しました" }, "folderSeparated": { "message": "フォルダを分割しました" }, "folderRenamed": { "message": "フォルダ名を変更しました" }, "renameFolder": { "message": "フォルダ名を変更" }, "folderName": { "message": "フォルダ名" }, "moveOutsideFolder": { "message": "フォルダから移動" }, "movedOutsideFolder": { "message": "ショートカットをフォルダから移動しました" }
+}

@@ -1,0 +1,19 @@
+# Dependencies and generated build output
+node_modules/
+dist/
+outputs/
+work/
+store-descriptions/
+store-descriptions.md
+
+
+# macOS metadata
+.DS_Store
+
+# Local editor and environment files
+.idea/
+.vscode/
+*.log
+.env
+.env.*
+!.env.example

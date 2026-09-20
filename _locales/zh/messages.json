@@ -1,0 +1,22 @@
+{
+  "description": { "message": "简洁的 Chrome 新标签页，支持无限快捷方式、网站图标、深色/浅色主题和本地数据。" },
+  "animation": { "message": "文字动画" },
+  "showLogo": { "message": "显示标志" },
+  "savedLogo": { "message": "标志已更新" },
+  "language": { "message": "语言" },
+  "automatic": { "message": "自动" },
+  "iconSize": { "message": "图标大小" },
+  "savedLanguage": { "message": "语言已更新" },
+  "savedIconSize": { "message": "图标大小已更新" },
+  "savedAnimation": { "message": "动画已更新" },
+  "newTabTitle": { "message": "新标签页" },
+  "searchPlaceholder": { "message": "在 Google 中搜索或输入网址" },
+  "addShortcut": { "message": "添加快捷方式" },
+  "addShortcutTitle": { "message": "添加快捷方式" },
+  "addShortcutDialog": { "message": "添加快捷方式" },
+  "editShortcutDialog": { "message": "编辑快捷方式" },
+  "name": { "message": "名称" }, "url": { "message": "网址" }, "finish": { "message": "完成" }, "cancel": { "message": "取消" }, "close": { "message": "关闭" }, "edit": { "message": "编辑" }, "delete": { "message": "删除" },
+  "customizeTitle": { "message": "自定义 TurboGoogle" }, "write": { "message": "文字" }, "mode": { "message": "模式" }, "dark": { "message": "深色" }, "light": { "message": "浅色" }, "textColor": { "message": "文字颜色" }, "restore": { "message": "恢复" }, "savedText": { "message": "文字已更新" }, "savedColor": { "message": "颜色已更新" }, "savedMode": { "message": "$mode$模式", "placeholders": { "mode": { "content": "$1" } } }, "restored": { "message": "设置已恢复" }, "invalidUrl": { "message": "请输入有效的网址。" },
+  "shortcutTitle": { "message": "$name$ — 拖动以重新排序", "placeholders": { "name": { "content": "$1" } } }, "editShortcutLabel": { "message": "编辑 $name$", "placeholders": { "name": { "content": "$1" } } },
+  "folderDefaultName": { "message": "文件夹" }, "folderCreated": { "message": "文件夹已创建" }, "openFolder": { "message": "打开文件夹 $name$", "placeholders": { "name": { "content": "$1" } } }, "editFolderLabel": { "message": "编辑文件夹 $name$", "placeholders": { "name": { "content": "$1" } } }, "separateFolder": { "message": "拆分文件夹" }, "confirmDeleteFolder": { "message": "删除此文件夹及其中的所有快捷方式？" }, "folderDeleted": { "message": "文件夹已删除" }, "folderSeparated": { "message": "文件夹已拆分" }, "folderRenamed": { "message": "文件夹已重命名" }, "renameFolder": { "message": "重命名文件夹" }, "folderName": { "message": "文件夹名称" }, "moveOutsideFolder": { "message": "移出文件夹" }, "movedOutsideFolder": { "message": "快捷方式已移出" }
+}

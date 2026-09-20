@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "TurboGoogle",
+  "version": "1.0.2",
+  "default_locale": "en",
+  "description": "__MSG_description__",
+  "permissions": ["storage", "favicon"],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; img-src 'self' data:"
+  },
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  },
+  "icons": {
+    "16": "icon16.png",
+    "32": "icon32.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  }
+}

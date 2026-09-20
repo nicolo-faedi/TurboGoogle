@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="data:," />
+    <title>Nuova scheda</title>
+    <link rel="stylesheet" href="newtab.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <section class="start-area" aria-label="Ricerca e shortcut">
+        <img class="brand-logo" src="icon128.png" alt="" aria-hidden="true" width="56" height="56" />
+        <div class="brand" aria-label="TurboGoogle"><span class="brand-turbo">Turbo</span><span class="brand-google">Google</span></div>
+
+        <form class="search" id="search-form" role="search">
+          <span class="search-icon" aria-hidden="true">⌕</span>
+          <input id="search-input" type="search" autocomplete="off" placeholder="Cerca su Google o digita un URL" aria-label="Cerca su Google o digita un URL" />
+          <button class="voice-button" type="button" aria-label="Ricerca vocale">⌕</button>
+        </form>
+
+        <div class="shortcut-grid" id="shortcut-grid" aria-live="polite">
+          <button class="add-shortcut" id="add-shortcut" type="button" data-i18n-aria="addShortcut" data-i18n-title="addShortcutTitle"><span class="add-icon" aria-hidden="true">+</span><span data-i18n="addShortcut">Aggiungi scorciatoia</span></button>
+        </div>
+      </section>
+
+      <div class="bottom-actions">
+        <button class="settings-button" id="open-settings" type="button" aria-label="Personalizza TurboGoogle" title="Personalizza TurboGoogle">✎</button>
+      </div>
+    </main>
+    <a class="coffee-link" href="https://buymeacoffee.com/nicuzz4z" target="_blank" rel="noreferrer">
+      <img src="icon128.png" alt="" aria-hidden="true" />
+      <span>TurboGoogle&nbsp;·&nbsp;☕ Buy me a coffee</span>
+    </a>
+
+    <dialog class="shortcut-dialog" id="shortcut-dialog" aria-labelledby="dialog-title">
+      <form id="shortcut-form" method="dialog">
+        <div class="dialog-header">
+          <h2 id="dialog-title" data-i18n="addShortcutDialog">Aggiungi scorciatoia</h2>
+          <button class="close-button" id="close-dialog" type="button" aria-label="Chiudi">×</button>
+        </div>
+        <label for="shortcut-name" data-i18n="name">Nome</label>
+        <input id="shortcut-name" name="name" type="text" maxlength="48" placeholder="es. YouTube" required />
+        <label for="shortcut-url" data-i18n="url">URL</label>
+        <input id="shortcut-url" name="url" type="text" inputmode="url" placeholder="https://www.example.com" required />
+        <p class="form-error" id="form-error" role="alert"></p>
+        <div class="dialog-actions">
+          <button class="secondary-button" id="cancel-dialog" type="button" data-i18n="cancel">Annulla</button>
+          <button class="primary-button" type="submit" data-i18n="finish">Fine</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="shortcut-dialog folder-dialog" id="folder-dialog" aria-labelledby="folder-dialog-title">
+      <form id="folder-form" method="dialog">
+        <div class="dialog-header"><h2 id="folder-dialog-title" data-i18n="renameFolder">Rinomina cartella</h2><button class="close-button" id="close-folder-dialog" type="button" data-i18n-aria="close">×</button></div>
+        <label for="folder-name" data-i18n="folderName">Nome cartella</label>
+        <input id="folder-name" type="text" maxlength="48" required />
+        <div class="dialog-actions"><button class="secondary-button" id="cancel-folder-dialog" type="button" data-i18n="cancel">Annulla</button><button class="primary-button" type="submit" data-i18n="finish">Fine</button></div>
+      </form>
+    </dialog>
+
+    <dialog class="folder-popover" id="folder-popover" aria-labelledby="folder-popover-title">
+      <div class="dialog-header"><h2 id="folder-popover-title"></h2><button class="close-button" id="close-folder-popover" type="button" data-i18n-aria="close">×</button></div>
+      <div class="folder-items" id="folder-items"></div>
+    </dialog>
+
+    <dialog class="shortcut-dialog settings-dialog" id="settings-dialog" aria-labelledby="settings-title">
+      <form id="settings-form" method="dialog">
+        <div class="dialog-header"><h2 id="settings-title" data-i18n="customizeTitle">Personalizza TurboGoogle</h2><button class="close-button" id="close-settings" type="button" data-i18n-aria="close">×</button></div>
+        <label for="brand-text" data-i18n="write">Scritta</label>
+        <input id="brand-text" type="text" maxlength="32" placeholder="TurboGoogle" />
+        <div class="preset-row"><span data-i18n="defaultLogo">Stile predefinito</span><button class="secondary-button preset-button" id="use-google-brand" type="button">Google</button></div>
+        <div class="theme-setting"><span data-i18n="mode">Modalità</span><label class="theme-toggle"><input id="theme-toggle" type="checkbox" /><span class="toggle-track"><span class="toggle-thumb"></span></span><span class="toggle-label" id="theme-label">Dark</span></label></div>
+        <div class="theme-setting animation-setting"><label id="animation-label" for="animation-toggle" data-i18n="animation">Animazione scritta</label><label class="theme-toggle"><input id="animation-toggle" type="checkbox" aria-labelledby="animation-label" checked /><span class="toggle-track"><span class="toggle-thumb"></span></span></label></div>
+        <div class="logo-setting"><label for="show-logo" data-i18n="showLogo">Mostra logo</label><input id="show-logo" type="checkbox" checked /></div>
+        <div class="setting-field"><label for="language-select" data-i18n="language">Lingua</label><select id="language-select" name="language"><option value="auto" data-i18n="automatic">Automatica</option><option value="it">Italiano</option><option value="en">English</option><option value="es">Español</option><option value="id">Bahasa Indonesia</option><option value="pt">Português</option><option value="de">Deutsch</option><option value="nl">Nederlands</option><option value="zh">中文</option><option value="ko">한국어</option><option value="ja">日本語</option><option value="hi">हिन्दी</option><option value="ru">Русский</option><option value="fr">Français</option><option value="tr">Türkçe</option><option value="pl">Polski</option><option value="uk">Українська</option></select></div>
+        <div class="setting-field icon-size-setting"><label for="icon-scale" data-i18n="iconSize">Dimensione icone</label><div class="range-control"><input id="icon-scale" name="iconScale" type="range" min="0.75" max="1.1" step="0.05" value="1" aria-describedby="icon-scale-value" /><output id="icon-scale-value" for="icon-scale">100%</output></div></div>
+        <div class="color-row"><label for="brand-color" data-i18n="textColor">Colore scritta</label><input id="brand-color" type="color" /></div>
+        <div class="color-row"><label for="background-color" data-i18n="backgroundColor">Colore sfondo</label><input id="background-color" type="color" /></div>
+        <div class="palette-setting"><span data-i18n="palettes">Palette vintage</span><div class="palette-list" role="group" aria-label="Palette vintage">
+          <button class="palette-swatch" type="button" data-palette="espresso" aria-label="Espresso" title="Espresso"><span></span></button>
+          <button class="palette-swatch" type="button" data-palette="sage" aria-label="Salvia" title="Salvia"><span></span></button>
+          <button class="palette-swatch" type="button" data-palette="panna" aria-label="Panna" title="Panna"><span></span></button>
+        </div></div>
+        <div class="dialog-actions"><button class="secondary-button" id="reset-brand" type="button" data-i18n="restore">Ripristina</button><button class="secondary-button" id="cancel-settings" type="button" data-i18n="close">Chiudi</button></div>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="newtab.js"></script>
+  </body>
+</html>
