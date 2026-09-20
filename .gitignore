@@ -1,6 +1,9 @@
 # Dependencies and generated build output
 node_modules/
 dist/
+build/
+release/
+*.zip
 outputs/
 screenshots/
 store-descriptions/
