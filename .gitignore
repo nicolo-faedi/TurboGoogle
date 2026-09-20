@@ -3,6 +3,7 @@ node_modules/
 dist/
 outputs/
 screenshots/
+store-descriptions/
 work/
 store-descriptions/
 store-descriptions.md
