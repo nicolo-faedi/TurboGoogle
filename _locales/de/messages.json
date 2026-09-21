@@ -1,5 +1,8 @@
 {
-  "description": { "message": "Ein einfacher Chrome-Tab mit unbegrenzten Verknüpfungen, Favicons, Hell-/Dunkelmodus und lokalen Daten." },
+  "addShortcutFolder": { "message": "Neu" }, "addShortcutFolderTitle": { "message": "Neu" }, "newShortcutDialog": { "message": "Neue Verknüpfung/Ordner" },
+  "shortcutType": { "message": "Typ" }, "shortcut": { "message": "Verknüpfung" }, "folder": { "message": "Ordner" },
+  "openAll": { "message": "Alle öffnen" },
+  "description": { "message": "Ein einfacher Chrome-Tab mit unbegrenzten Verknüpfungen, Favicons, Hell-/Dunkelmodus und lokalen Daten." }, "reportIssue": { "message": "Problem melden" },
   "animation": { "message": "Textanimation" },
   "showLogo": { "message": "Logo anzeigen" },
   "savedLogo": { "message": "Logo aktualisiert" },

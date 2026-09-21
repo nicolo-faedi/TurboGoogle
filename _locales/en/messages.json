@@ -1,5 +1,8 @@
 {
-  "description": { "message": "A simple Chrome new tab with unlimited shortcuts, favicons, Dark/Light themes, and local data." },
+  "addShortcutFolder": { "message": "New" }, "addShortcutFolderTitle": { "message": "New" }, "newShortcutDialog": { "message": "New shortcut/folder" },
+  "shortcutType": { "message": "Type" }, "shortcut": { "message": "Shortcut" }, "folder": { "message": "Folder" },
+  "openAll": { "message": "Open all" },
+  "description": { "message": "A simple Chrome new tab with unlimited shortcuts, favicons, Dark/Light themes, and local data." }, "reportIssue": { "message": "Report issue" },
   "animation": { "message": "Text animation" },
   "showLogo": { "message": "Show logo" },
   "savedLogo": { "message": "Logo updated" },

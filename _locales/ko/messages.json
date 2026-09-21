@@ -1,5 +1,8 @@
 {
-  "description": { "message": "무제한 바로가기, 파비콘, 다크/라이트 테마와 로컬 데이터를 지원하는 간단한 Chrome 새 탭입니다." },
+  "addShortcutFolder": { "message": "새로 만들기" }, "addShortcutFolderTitle": { "message": "새로 만들기" }, "newShortcutDialog": { "message": "새 바로가기/폴더" },
+  "shortcutType": { "message": "유형" }, "shortcut": { "message": "바로가기" }, "folder": { "message": "폴더" },
+  "openAll": { "message": "모두 열기" },
+  "description": { "message": "무제한 바로가기, 파비콘, 다크/라이트 테마와 로컬 데이터를 지원하는 간단한 Chrome 새 탭입니다." }, "reportIssue": { "message": "문제 신고" },
   "animation": { "message": "텍스트 애니메이션" },
   "showLogo": { "message": "로고 표시" },
   "savedLogo": { "message": "로고가 업데이트되었습니다" },

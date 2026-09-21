@@ -1,5 +1,8 @@
 {
-  "description": { "message": "Tab baru Chrome sederhana dengan pintasan tanpa batas, favicon, tema Gelap/Terang, dan data lokal." },
+  "addShortcutFolder": { "message": "Baru" }, "addShortcutFolderTitle": { "message": "Baru" }, "newShortcutDialog": { "message": "Pintasan/folder baru" },
+  "shortcutType": { "message": "Jenis" }, "shortcut": { "message": "Pintasan" }, "folder": { "message": "Folder" },
+  "openAll": { "message": "Buka semua" },
+  "description": { "message": "Tab baru Chrome sederhana dengan pintasan tanpa batas, favicon, tema Gelap/Terang, dan data lokal." }, "reportIssue": { "message": "Laporkan masalah" },
   "animation": { "message": "Animasi teks" },
   "showLogo": { "message": "Tampilkan logo" },
   "savedLogo": { "message": "Logo diperbarui" },

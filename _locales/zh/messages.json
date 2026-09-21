@@ -1,5 +1,8 @@
 {
-  "description": { "message": "简洁的 Chrome 新标签页，支持无限快捷方式、网站图标、深色/浅色主题和本地数据。" },
+  "addShortcutFolder": { "message": "新建" }, "addShortcutFolderTitle": { "message": "新建" }, "newShortcutDialog": { "message": "新建快捷方式/文件夹" },
+  "shortcutType": { "message": "类型" }, "shortcut": { "message": "快捷方式" }, "folder": { "message": "文件夹" },
+  "openAll": { "message": "全部打开" },
+  "description": { "message": "简洁的 Chrome 新标签页，支持无限快捷方式、网站图标、深色/浅色主题和本地数据。" }, "reportIssue": { "message": "报告问题" },
   "animation": { "message": "文字动画" },
   "showLogo": { "message": "显示标志" },
   "savedLogo": { "message": "标志已更新" },

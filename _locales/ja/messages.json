@@ -1,5 +1,8 @@
 {
-  "description": { "message": "無制限のショートカット、ファビコン、ダーク/ライトテーマ、ローカルデータに対応したシンプルなChrome新しいタブです。" },
+  "addShortcutFolder": { "message": "新規" }, "addShortcutFolderTitle": { "message": "新規" }, "newShortcutDialog": { "message": "新しいショートカット/フォルダ" },
+  "shortcutType": { "message": "種類" }, "shortcut": { "message": "ショートカット" }, "folder": { "message": "フォルダ" },
+  "openAll": { "message": "すべて開く" },
+  "description": { "message": "無制限のショートカット、ファビコン、ダーク/ライトテーマ、ローカルデータに対応したシンプルなChrome新しいタブです。" }, "reportIssue": { "message": "問題を報告" },
   "animation": { "message": "文字アニメーション" },
   "showLogo": { "message": "ロゴを表示" },
   "savedLogo": { "message": "ロゴを更新しました" },

@@ -12,6 +12,8 @@ const dialog = document.querySelector('#shortcut-dialog');
 const form = document.querySelector('#shortcut-form');
 const nameInput = document.querySelector('#shortcut-name');
 const urlInput = document.querySelector('#shortcut-url');
+const typeInput = document.querySelector('#shortcut-type');
+const urlField = document.querySelector('#shortcut-url-field');
 const formError = document.querySelector('#form-error');
 const settingsDialog = document.querySelector('#settings-dialog');
 const settingsForm = document.querySelector('#settings-form');
@@ -405,12 +407,10 @@ function createWaveText(text, className = '') {
 async function applySettings(settings = null) {
   settings ||= await readSettings(); const brandElement = document.querySelector('.brand');
   document.querySelector('.brand-logo').hidden = settings.showLogo === false;
-  const scale = Math.min(1.1, Math.max(0.75, Number(settings.iconScale) || 1));
+  const scale = Math.min(1.3, Math.max(0.75, Number(settings.iconScale) || 1));
   iconScaleInput.value = String(scale);
   iconScaleValue.value = `${Math.round(scale * 100)}%`;
-  document.documentElement.style.setProperty('--shortcut-icon-size', `${48 * scale}px`);
-  document.documentElement.style.setProperty('--shortcut-favicon-size', `${28 * scale}px`);
-  document.documentElement.style.setProperty('--add-icon-size', `${48 * scale}px`);
+  document.documentElement.style.setProperty('--shortcut-scale', String(scale));
   brandElement.classList.toggle('google-default', settings.brand === 'Google');
   brandElement.classList.toggle('animated', settings.animation !== false && settings.brand !== 'Google');
   brandElement.setAttribute('aria-label', settings.brand);
@@ -459,8 +459,8 @@ function createFavicon(item) {
 function createAddButton() {
   const button = document.createElement('button');
   button.className = 'add-shortcut'; button.id = 'add-shortcut'; button.type = 'button';
-  button.setAttribute('aria-label', msg('addShortcut')); button.title = msg('addShortcutTitle');
-  button.innerHTML = `<span class="add-icon" aria-hidden="true">+</span><span>${msg('addShortcut')}</span>`;
+  button.setAttribute('aria-label', msg('addShortcutFolder')); button.title = msg('addShortcutFolderTitle');
+  button.innerHTML = `<span class="add-icon" aria-hidden="true">+</span><span>${msg('addShortcutFolder')}</span>`;
   button.addEventListener('click', () => openAddDialog());
   return button;
 }
@@ -505,7 +505,7 @@ async function renderNow(initialItems = null) {
       const preview = document.createElement('span'); preview.className = 'folder-preview'; item.items.slice(0, 4).forEach((child) => { const icon = document.createElement('span'); icon.className = 'folder-preview-icon'; icon.append(createFavicon(child)); preview.append(icon); });
       const label = document.createElement('span'); label.className = 'shortcut-label'; label.textContent = item.name;
       const menuButton = document.createElement('button'); menuButton.className = 'shortcut-menu'; menuButton.type = 'button'; menuButton.textContent = '⋮'; menuButton.setAttribute('aria-label', msg('editFolderLabel', item.name));
-      const menu = createMenu(menuButton, [[msg('edit'), () => openFolderEdit(item.id)], [msg('delete'), () => deleteFolder(item.id)], [msg('separateFolder'), () => separateFolder(item.id)]]);
+      const menu = createMenu(menuButton, [[msg('openAll'), () => openAllFolder(item)], [msg('edit'), () => openFolderEdit(item.id)], [msg('delete'), () => deleteFolder(item.id)], [msg('separateFolder'), () => separateFolder(item.id)]]);
       folder.draggable = true; folder.addEventListener('dragstart', (event) => startDrag(event, index, folder)); folder.addEventListener('dragend', endDrag); folder.append(preview, label, menuButton); folder.addEventListener('click', (event) => { if (!event.target.closest('button')) openFolder(item.id); }); folder.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openFolder(item.id); } }); cell.append(folder); attachDropTarget(cell, slot, entry);
     } else {
       const link = createShortcutView(item, () => openEdit(index), () => removeShortcut(index)); link.dataset.index = index; link.addEventListener('dragstart', (event) => startDrag(event, index, link)); link.addEventListener('dragend', endDrag); cell.append(link); attachDropTarget(cell, slot, entry);
@@ -579,23 +579,26 @@ grid.addEventListener('drop', async (event) => {
 async function createFolder(sourceIndex, targetIndex) { if (sourceIndex === targetIndex) return; clearTimeout(hoverTimer); hoverTimer = null; hoverTargetIndex = null; const items = await readShortcuts(); const source = items[sourceIndex]; const target = items[targetIndex]; if (!source || !target || source.type !== 'shortcut' || target.type !== 'shortcut') return; const folder = { type: 'folder', id: crypto.randomUUID(), name: msg('folderDefaultName'), slot: target.slot, items: [source, target] }; items.splice(Math.max(sourceIndex, targetIndex), 1); items.splice(Math.min(sourceIndex, targetIndex), 1, folder); await saveShortcuts(items); render(); showToast(msg('folderCreated')); }
 
 async function openFolder(folderId) { const items = await readShortcuts(); const folderIndex = items.findIndex((item) => item.id === folderId); const folder = items[folderIndex]; if (!folder || folder.type !== 'folder') return; folderPopoverTitle.textContent = folder.name; folderItems.replaceChildren(); folder.items.forEach((item) => folderItems.append(createShortcutView(item, () => openInnerEdit(folderId, item.id), () => removeInnerShortcut(folderId, item.id), true, () => moveOutsideFolder(folderId, item.id), folderPopover))); folderPopover.showModal(); }
-async function openInnerEdit(folderId, itemId) { const items = await readShortcuts(); const folderIndex = items.findIndex((item) => item.id === folderId); const folder = items[folderIndex]; const item = folder?.items.find((child) => child.id === itemId); if (!item) return; editingIndex = folderIndex; editingInnerId = itemId; pendingSlot = null; nameInput.value = item.name; urlInput.value = item.url; formError.textContent = ''; document.querySelector('#dialog-title').textContent = msg('editShortcutDialog'); dialog.showModal(); }
+async function openInnerEdit(folderId, itemId) { const items = await readShortcuts(); const folderIndex = items.findIndex((item) => item.id === folderId); const folder = items[folderIndex]; const item = folder?.items.find((child) => child.id === itemId); if (!item) return; editingIndex = folderIndex; editingInnerId = itemId; pendingSlot = null; typeInput.value = 'shortcut'; typeInput.disabled = true; nameInput.value = item.name; urlInput.value = item.url; urlField.hidden = false; urlInput.required = true; formError.textContent = ''; document.querySelector('#dialog-title').textContent = msg('editShortcutDialog'); dialog.showModal(); }
 async function removeInnerShortcut(folderId, itemId) { const items = await readShortcuts(); const folderIndex = items.findIndex((item) => item.id === folderId); const folder = items[folderIndex]; if (!folder) return; folder.items = folder.items.filter((item) => item.id !== itemId); await saveShortcuts(items); openFolder(folderId); render(); }
 async function moveOutsideFolder(folderId, itemId) { const items = await readShortcuts(); const folderIndex = items.findIndex((item) => item.id === folderId); const folder = items[folderIndex]; if (!folder || folder.type !== 'folder') return; const childIndex = folder.items.findIndex((item) => item.id === itemId); if (childIndex < 0) return; const [child] = folder.items.splice(childIndex, 1); const folderSlot = folder.slot; const moved = { ...child, type: 'shortcut', slot: folderSlot }; items.splice(folderIndex, 0, moved); folder.slot += 1; items.forEach((item) => { if (item !== moved && item !== folder && item.slot >= folder.slot) item.slot += 1; }); await saveShortcuts(items); folderPopover.close(); render(); showToast(msg('movedOutsideFolder')); }
 async function openFolderEdit(folderId) { const items = await readShortcuts(); editingFolderIndex = items.findIndex((item) => item.id === folderId); folderNameInput.value = items[editingFolderIndex]?.name || ''; folderDialog.showModal(); folderNameInput.focus(); }
 async function deleteFolder(folderId) { if (!confirm(msg('confirmDeleteFolder'))) return; const items = await readShortcuts(); const index = items.findIndex((item) => item.id === folderId); if (index < 0) return; items.splice(index, 1); await saveShortcuts(items); folderPopover.close(); render(); showToast(msg('folderDeleted')); }
 async function separateFolder(folderId) { const items = await readShortcuts(); const ordered = [...items].sort((a, b) => a.slot - b.slot); const index = ordered.findIndex((item) => item.id === folderId); const folder = ordered[index]; if (!folder || folder.type !== 'folder') return; const expanded = [...ordered.slice(0, index), ...folder.items, ...ordered.slice(index + 1)].map((item, position) => ({ ...item, slot: position })); await saveShortcuts(expanded); folderPopover.close(); render(); showToast(msg('folderSeparated')); }
+function openAllFolder(folder) { if (!folder?.items?.length) return; folder.items.forEach((item) => { if (item.url) window.open(item.url, '_blank', 'noopener,noreferrer'); }); }
 
 async function removeShortcut(index) {
   const shortcuts = await readShortcuts(); shortcuts.splice(index, 1); await saveShortcuts(shortcuts.map((item, slot) => ({ ...item, slot: Number.isInteger(item.slot) ? item.slot : slot }))); render();
 }
 
 async function openEdit(index) {
-  const shortcut = (await readShortcuts())[index]; editingIndex = index; editingInnerId = null; pendingSlot = null; nameInput.value = shortcut.name; urlInput.value = shortcut.url; formError.textContent = ''; document.querySelector('#dialog-title').textContent = msg('editShortcutDialog'); dialog.showModal(); nameInput.focus();
+  const shortcut = (await readShortcuts())[index]; editingIndex = index; editingInnerId = null; pendingSlot = null; typeInput.value = 'shortcut'; typeInput.disabled = true; nameInput.value = shortcut.name; urlInput.value = shortcut.url; urlField.hidden = false; urlInput.required = true; formError.textContent = ''; document.querySelector('#dialog-title').textContent = msg('editShortcutDialog'); dialog.showModal(); nameInput.focus();
 }
 
-function openAddDialog(slot = null) { pendingSlot = slot; editingIndex = null; editingInnerId = null; form.reset(); formError.textContent = ''; document.querySelector('#dialog-title').textContent = msg('addShortcutDialog'); dialog.showModal(); nameInput.focus(); }
+function updateShortcutType() { const isFolder = typeInput.value === 'folder'; urlField.hidden = isFolder; urlInput.required = !isFolder; if (isFolder) urlInput.value = ''; }
+function openAddDialog(slot = null) { pendingSlot = slot; editingIndex = null; editingInnerId = null; form.reset(); typeInput.disabled = false; updateShortcutType(); formError.textContent = ''; document.querySelector('#dialog-title').textContent = msg('newShortcutDialog'); dialog.showModal(); nameInput.focus(); }
 document.querySelector('#add-shortcut').addEventListener('click', () => openAddDialog());
+typeInput.addEventListener('change', updateShortcutType);
 document.querySelector('#cancel-dialog').addEventListener('click', () => dialog.close());
 document.querySelector('#close-dialog').addEventListener('click', () => dialog.close());
 dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
@@ -608,6 +611,11 @@ folderPopover.addEventListener('click', (event) => { if (event.target === folder
 document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && folderPopover.open) folderPopover.close(); });
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
+  if (editingIndex === null && !editingInnerId && typeInput.value === 'folder') {
+    const shortcuts = await readShortcuts(); const nextSlot = Math.max(-1, ...shortcuts.map((item, index) => Number.isInteger(item.slot) ? item.slot : index)) + 1;
+    shortcuts.push({ type: 'folder', id: crypto.randomUUID(), name: nameInput.value.trim() || msg('folderDefaultName'), slot: pendingSlot ?? nextSlot, items: [] });
+    pendingSlot = null; await saveShortcuts(shortcuts); dialog.close(); render(); showToast(msg('folderCreated')); return;
+  }
   let url = urlInput.value.trim();
   if (!/^https?:\/\//i.test(url)) url = `https://${url}`;
   try { url = new URL(url).href; } catch { formError.textContent = msg('invalidUrl'); return; }

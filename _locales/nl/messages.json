@@ -1,5 +1,8 @@
 {
-  "description": { "message": "Een eenvoudig Chrome-nieuw tabblad met onbeperkte snelkoppelingen, favicons, lichte/donkere thema's en lokale gegevens." },
+  "addShortcutFolder": { "message": "Nieuw" }, "addShortcutFolderTitle": { "message": "Nieuw" }, "newShortcutDialog": { "message": "Nieuwe snelkoppeling/map" },
+  "shortcutType": { "message": "Type" }, "shortcut": { "message": "Snelkoppeling" }, "folder": { "message": "Map" },
+  "openAll": { "message": "Alles openen" },
+  "description": { "message": "Een eenvoudig Chrome-nieuw tabblad met onbeperkte snelkoppelingen, favicons, lichte/donkere thema's en lokale gegevens." }, "reportIssue": { "message": "Probleem melden" },
   "animation": { "message": "Tekstanimatie" },
   "showLogo": { "message": "Logo tonen" },
   "savedLogo": { "message": "Logo bijgewerkt" },

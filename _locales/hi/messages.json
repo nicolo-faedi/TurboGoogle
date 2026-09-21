@@ -1,5 +1,8 @@
 {
-  "description": { "message": "अनलिमिटेड शॉर्टकट, फ़ेविकॉन, डार्क/लाइट थीम और स्थानीय डेटा वाला सरल Chrome नया टैब।" },
+  "addShortcutFolder": { "message": "नया" }, "addShortcutFolderTitle": { "message": "नया" }, "newShortcutDialog": { "message": "नया शॉर्टकट/फ़ोल्डर" },
+  "shortcutType": { "message": "प्रकार" }, "shortcut": { "message": "शॉर्टकट" }, "folder": { "message": "फ़ोल्डर" },
+  "openAll": { "message": "सभी खोलें" },
+  "description": { "message": "अनलिमिटेड शॉर्टकट, फ़ेविकॉन, डार्क/लाइट थीम और स्थानीय डेटा वाला सरल Chrome नया टैब।" }, "reportIssue": { "message": "समस्या की रिपोर्ट करें" },
   "animation": { "message": "टेक्स्ट एनिमेशन" },
   "showLogo": { "message": "लोगो दिखाएँ" },
   "savedLogo": { "message": "लोगो अपडेट किया गया" },

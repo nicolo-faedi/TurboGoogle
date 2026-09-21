@@ -1,5 +1,8 @@
 {
-  "description": { "message": "Una nueva pestaña de Chrome sencilla con accesos ilimitados, favicons, temas oscuro/claro y datos locales." },
+  "addShortcutFolder": { "message": "Nuevo" }, "addShortcutFolderTitle": { "message": "Nuevo" }, "newShortcutDialog": { "message": "Nuevo acceso directo/carpeta" },
+  "shortcutType": { "message": "Tipo" }, "shortcut": { "message": "Acceso directo" }, "folder": { "message": "Carpeta" },
+  "openAll": { "message": "Abrir todos" },
+  "description": { "message": "Una nueva pestaña de Chrome sencilla con accesos ilimitados, favicons, temas oscuro/claro y datos locales." }, "reportIssue": { "message": "Informar de un problema" },
   "animation": { "message": "Animación del texto" },
   "showLogo": { "message": "Mostrar logotipo" },
   "savedLogo": { "message": "Logotipo actualizado" },

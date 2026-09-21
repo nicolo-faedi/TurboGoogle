@@ -1,5 +1,8 @@
 {
-  "description": { "message": "Простая новая вкладка Chrome с неограниченным количеством ярлыков, фавиконами, тёмной и светлой темами и локальным хранением данных." },
+  "addShortcutFolder": { "message": "Новое" }, "addShortcutFolderTitle": { "message": "Новое" }, "newShortcutDialog": { "message": "Новый ярлык/папка" },
+  "shortcutType": { "message": "Тип" }, "shortcut": { "message": "Ярлык" }, "folder": { "message": "Папка" },
+  "openAll": { "message": "Открыть все" },
+  "description": { "message": "Простая новая вкладка Chrome с неограниченным количеством ярлыков, фавиконами, тёмной и светлой темами и локальным хранением данных." }, "reportIssue": { "message": "Сообщить о проблеме" },
   "animation": { "message": "Анимация текста" },
   "showLogo": { "message": "Показывать логотип" },
   "savedLogo": { "message": "Логотип обновлён" },

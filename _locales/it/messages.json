@@ -1,5 +1,8 @@
 {
-  "description": { "message": "Una nuova scheda Chrome semplice con shortcut illimitati, favicon, temi Dark/Light e dati locali." },
+  "addShortcutFolder": { "message": "Nuovo" }, "addShortcutFolderTitle": { "message": "Nuovo" }, "newShortcutDialog": { "message": "Nuova scorciatoia/cartella" },
+  "shortcutType": { "message": "Tipo" }, "shortcut": { "message": "Scorciatoia" }, "folder": { "message": "Cartella" },
+  "openAll": { "message": "Apri tutti" },
+  "description": { "message": "Una nuova scheda Chrome semplice con shortcut illimitati, favicon, temi Dark/Light e dati locali." }, "reportIssue": { "message": "Segnala un problema" },
   "animation": { "message": "Animazione scritta" },
   "showLogo": { "message": "Mostra logo" },
   "savedLogo": { "message": "Logo aggiornato" },

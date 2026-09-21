@@ -1,5 +1,8 @@
 {
-  "description": { "message": "Uma nova guia simples do Chrome com atalhos ilimitados, favicons, temas Escuro/Claro e dados locais." },
+  "addShortcutFolder": { "message": "Novo" }, "addShortcutFolderTitle": { "message": "Novo" }, "newShortcutDialog": { "message": "Novo atalho/pasta" },
+  "shortcutType": { "message": "Tipo" }, "shortcut": { "message": "Atalho" }, "folder": { "message": "Pasta" },
+  "openAll": { "message": "Abrir todos" },
+  "description": { "message": "Uma nova guia simples do Chrome com atalhos ilimitados, favicons, temas Escuro/Claro e dados locais." }, "reportIssue": { "message": "Comunicar um problema" },
   "animation": { "message": "Animação do texto" },
   "showLogo": { "message": "Mostrar logotipo" },
   "savedLogo": { "message": "Logotipo atualizado" },
