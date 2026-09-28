@@ -6,7 +6,7 @@ const FOLDER_ITEM_PREFIX = 'newTabFolderItem:';
 const FAVICON_CACHE_PREFIX = 'faviconCache:v2:';
 const FAVICON_CACHE_TTL = 30 * 24 * 60 * 60 * 1000;
 const FAVICON_DB_NAME = 'turbogoogle-favicons';
-const FAVICON_DB_VERSION = 1;
+const FAVICON_DB_VERSION = 2;
 const grid = document.querySelector('#shortcut-grid');
 const dialog = document.querySelector('#shortcut-dialog');
 const form = document.querySelector('#shortcut-form');
@@ -51,6 +51,7 @@ let activeFaviconRequests = 0;
 let shortcutWriteQueue = Promise.resolve();
 let renderQueue = Promise.resolve();
 let shortcutCache = null;
+let lastGoodShortcutSnapshot = null;
 let shortcutLoadPromise = null;
 let shortcutCacheVersion = 0;
 const pendingOwnChanges = new Map();
@@ -103,7 +104,7 @@ const msg = (key, substitutions) => {
 async function loadLocale() {
   const settings = await readSettings();
   const browserLocale = (chrome.i18n.getUILanguage() || 'it').toLowerCase().split('-')[0];
-  const supportedLocales = ['it', 'en', 'es', 'id', 'pt', 'de', 'nl', 'zh', 'ko', 'ja', 'hi', 'ru', 'fr', 'tr', 'pl', 'uk'];
+  const supportedLocales = ['it', 'en', 'es', 'id', 'pt', 'de', 'nl', 'zh', 'ko', 'ja', 'hi', 'ur', 'ru', 'fr', 'tr', 'pl', 'uk'];
   const locale = settings.language === 'auto' ? (supportedLocales.includes(browserLocale) ? browserLocale : 'en') : (supportedLocales.includes(settings.language) ? settings.language : 'en');
   try { localeMessages = await fetch(`_locales/${locale}/messages.json`).then((response) => response.json()); } catch { localeMessages = {}; }
 }
@@ -134,21 +135,33 @@ function normalizeShortcutItem(item, index) {
   return { type: 'shortcut', id: item?.id || crypto.randomUUID(), name: item?.name || '', url: item?.url || '', slot: Number.isInteger(item?.slot) ? item.slot : index };
 }
 
+async function readSyncKeys(keys) {
+  let result = {};
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    result = keys.length ? await chrome.storage.sync.get(keys) : {};
+    if (keys.every((key) => Object.prototype.hasOwnProperty.call(result, key)) || attempt === 2) return result;
+    await new Promise((resolve) => setTimeout(resolve, 100 * (attempt + 1)));
+  }
+  return result;
+}
+
 async function loadShortcutsFromSync() {
   const indexResult = await chrome.storage.sync.get(SHORTCUT_INDEX_KEY);
   if (Array.isArray(indexResult[SHORTCUT_INDEX_KEY])) {
     const ids = indexResult[SHORTCUT_INDEX_KEY];
-    const records = await chrome.storage.sync.get(ids.map((id) => `${SHORTCUT_ITEM_PREFIX}${id}`));
+    const records = await readSyncKeys(ids.map((id) => `${SHORTCUT_ITEM_PREFIX}${id}`));
     const folders = ids.map((id) => records[`${SHORTCUT_ITEM_PREFIX}${id}`]).filter((item) => item?.type === 'folder');
     const folderIndexKeys = folders.map((folder) => `${FOLDER_INDEX_PREFIX}${folder.id}`);
-    const folderIndexes = folderIndexKeys.length ? await chrome.storage.sync.get(folderIndexKeys) : {};
+    const folderIndexes = await readSyncKeys(folderIndexKeys);
     const childKeys = folders.flatMap((folder) => (folderIndexes[`${FOLDER_INDEX_PREFIX}${folder.id}`] || []).map((id) => `${FOLDER_ITEM_PREFIX}${folder.id}:${id}`));
-    const children = childKeys.length ? await chrome.storage.sync.get(childKeys) : {};
+    const children = await readSyncKeys(childKeys);
+    const previousById = new Map((lastGoodShortcutSnapshot || []).map((item) => [item.id, item]));
+    const previousFolderChildren = new Map((lastGoodShortcutSnapshot || []).flatMap((item) => item.type === 'folder' ? item.items.map((child) => [`${item.id}:${child.id}`, child]) : []));
     return ids.map((id, index) => {
-      const record = records[`${SHORTCUT_ITEM_PREFIX}${id}`];
+      const record = records[`${SHORTCUT_ITEM_PREFIX}${id}`] || previousById.get(id);
       if (!record) return null;
       if (record.type === 'folder') {
-        const items = (folderIndexes[`${FOLDER_INDEX_PREFIX}${record.id}`] || []).map((childId) => children[`${FOLDER_ITEM_PREFIX}${record.id}:${childId}`]).filter(Boolean).sort((a, b) => (a.slot ?? 0) - (b.slot ?? 0)).map((child, childIndex) => normalizeShortcutItem(child, childIndex));
+        const items = (folderIndexes[`${FOLDER_INDEX_PREFIX}${record.id}`] || []).map((childId) => children[`${FOLDER_ITEM_PREFIX}${record.id}:${childId}`] || previousFolderChildren.get(`${record.id}:${childId}`)).filter(Boolean).sort((a, b) => (a.slot ?? 0) - (b.slot ?? 0)).map((child, childIndex) => normalizeShortcutItem(child, childIndex));
         return normalizeShortcutItem({ ...record, items }, index);
       }
       return normalizeShortcutItem(record, index);
@@ -166,6 +179,7 @@ async function readShortcuts() {
       let version; let items;
       do { version = shortcutCacheVersion; items = await loadShortcutsFromSync(); } while (version !== shortcutCacheVersion);
       shortcutCache = structuredClone(items);
+      lastGoodShortcutSnapshot = structuredClone(items);
       return structuredClone(items);
     })();
     shortcutLoadPromise = load.finally(() => { shortcutLoadPromise = null; });
@@ -213,7 +227,7 @@ async function saveShortcuts(items) {
     } catch { invalidateShortcutCache(); showToast(msg('storageLimit')); return false; }
     const stale = readKeys.filter((key) => (key === STORAGE_KEY || key.startsWith(SHORTCUT_ITEM_PREFIX) || key.startsWith(FOLDER_INDEX_PREFIX) || key.startsWith(FOLDER_ITEM_PREFIX)) && !keepKeys.has(key));
     if (stale.length) { try { stale.forEach((key) => expectOwnChange(key, undefined)); await chrome.storage.sync.remove(stale); } catch { /* stale records are harmless and can be removed on a later save */ } }
-    if (cacheVersionAtStart === shortcutCacheVersion) shortcutCache = structuredClone(items);
+    if (cacheVersionAtStart === shortcutCacheVersion) { shortcutCache = structuredClone(items); lastGoodShortcutSnapshot = structuredClone(items); }
     return true;
   };
   const next = shortcutWriteQueue.then(write, write); shortcutWriteQueue = next.catch(() => {}); return next;
@@ -249,6 +263,13 @@ function normalizeFaviconUrl(url) {
   } catch { return ''; }
 }
 
+function faviconCandidates(url) {
+  const normalizedUrl = normalizeFaviconUrl(url);
+  if (!normalizedUrl) return [];
+  const parsed = new URL(normalizedUrl);
+  return [faviconFor(normalizedUrl), `${parsed.origin}/favicon.ico`, `${parsed.origin}/favicon.png`, `${parsed.origin}/apple-touch-icon.png`].filter(Boolean);
+}
+
 function faviconCacheKey(url) {
   let hash = 2166136261;
   for (const character of url) hash = Math.imul(hash ^ character.charCodeAt(0), 16777619);
@@ -259,7 +280,7 @@ function openFaviconDb() {
   if (faviconDbPromise) return faviconDbPromise;
   faviconDbPromise = new Promise((resolve, reject) => {
     const request = indexedDB.open(FAVICON_DB_NAME, FAVICON_DB_VERSION);
-    request.addEventListener('upgradeneeded', () => request.result.createObjectStore('favicons', { keyPath: 'url' }));
+    request.addEventListener('upgradeneeded', () => { if (!request.result.objectStoreNames.contains('favicons')) request.result.createObjectStore('favicons', { keyPath: 'url' }); });
     request.addEventListener('success', () => resolve(request.result));
     request.addEventListener('error', () => reject(request.error));
   });
@@ -317,23 +338,23 @@ async function readCachedFavicon(url) {
   const normalizedUrl = normalizeFaviconUrl(url);
   if (!normalizedUrl) return null;
   const inMemory = faviconMemoryCache.get(normalizedUrl);
-  if (inMemory) return { blob: inMemory.blob, fresh: Date.now() - inMemory.savedAt < FAVICON_CACHE_TTL };
+  if (inMemory) return { blob: inMemory.blob, sourceUrl: inMemory.sourceUrl || '', fresh: Date.now() - inMemory.savedAt < FAVICON_CACHE_TTL };
   try {
     const cached = await readFaviconDb(normalizedUrl) || await migrateLegacyFavicon(normalizedUrl);
     if (!cached) return null;
     const blob = cached.blob || (cached.dataUrl ? await fetch(cached.dataUrl).then((response) => response.blob()) : null);
-    if (!blob?.size) return null;
-    const normalized = { url: normalizedUrl, blob, savedAt: cached.savedAt || Date.now() };
+    if (!blob?.size && !cached.sourceUrl) return null;
+    const normalized = { url: normalizedUrl, blob, sourceUrl: cached.sourceUrl || '', savedAt: cached.savedAt || Date.now() };
     if (!cached.blob) void writeFaviconDb(normalized).catch(() => {});
     faviconMemoryCache.set(normalizedUrl, normalized);
-    return { blob, fresh: Date.now() - normalized.savedAt < FAVICON_CACHE_TTL };
+    return { blob, sourceUrl: normalized.sourceUrl, fresh: Date.now() - normalized.savedAt < FAVICON_CACHE_TTL };
   } catch { return null; }
 }
 
-async function saveCachedFavicon(url, blob) {
+async function saveCachedFavicon(url, blob = null, sourceUrl = '') {
   const normalizedUrl = normalizeFaviconUrl(url);
-  if (!normalizedUrl || !blob?.size) return;
-  const cached = { url: normalizedUrl, blob, savedAt: Date.now() };
+  if (!normalizedUrl || (!blob?.size && !sourceUrl)) return;
+  const cached = { url: normalizedUrl, blob, sourceUrl, savedAt: Date.now() };
   faviconMemoryCache.set(normalizedUrl, cached);
   try { await writeFaviconDb(cached); } catch { /* fallback icon remains available if the local cache cannot be written */ }
 }
@@ -352,35 +373,56 @@ function drainFaviconQueue() {
   }
 }
 
+function probeFaviconUrl(url) {
+  return new Promise((resolve, reject) => {
+    const image = document.createElement('img');
+    image.decoding = 'async'; image.loading = 'eager'; image.referrerPolicy = 'no-referrer';
+    image.addEventListener('load', () => resolve(url), { once: true });
+    image.addEventListener('error', () => reject(new Error(`Favicon unavailable: ${url}`)), { once: true });
+    image.src = url;
+  });
+}
+
 async function refreshFavicon(url) {
   const normalizedUrl = normalizeFaviconUrl(url);
   if (!normalizedUrl) return '';
   const pending = faviconPendingRequests.get(normalizedUrl);
   if (pending) return pending;
   const request = enqueueFaviconRequest(async () => {
-    let lastError;
-    for (const delay of [0, 1200, 4000]) {
-      if (delay) await new Promise((resolve) => setTimeout(resolve, delay));
+    const candidates = faviconCandidates(normalizedUrl);
+    const nativeCandidate = candidates.shift();
+    if (nativeCandidate) {
       try {
-        const response = await fetch(faviconFor(normalizedUrl), { cache: 'no-store' });
+        const response = await fetch(nativeCandidate, { cache: 'no-store' });
         if (!response.ok) throw new Error(`Favicon request failed: ${response.status}`);
         const blob = await response.blob();
         if (!blob.size || !blob.type.startsWith('image/')) throw new Error('Favicon response is not an image');
         await saveCachedFavicon(normalizedUrl, blob);
-        return blob;
-      } catch (error) { lastError = error; }
+        return { blob, sourceUrl: '' };
+      } catch { /* try the site's standard favicon URLs */ }
     }
-    throw lastError || new Error('Favicon unavailable');
+    for (const candidate of candidates) {
+      try {
+        const sourceUrl = await probeFaviconUrl(candidate);
+        await saveCachedFavicon(normalizedUrl, null, sourceUrl);
+        return { blob: null, sourceUrl };
+      } catch { /* try the next candidate */ }
+    }
+    throw new Error('Favicon unavailable');
   })().finally(() => faviconPendingRequests.delete(normalizedUrl));
   faviconPendingRequests.set(normalizedUrl, request);
   return request;
 }
 
-async function getFaviconBlob(url) {
+async function getFaviconSource(url) {
   const cached = await readCachedFavicon(url);
   if (cached?.blob) {
     if (!cached.fresh) void refreshFavicon(url).catch(() => {});
-    return cached.blob;
+    return cached;
+  }
+  if (cached?.sourceUrl) {
+    if (!cached.fresh) void refreshFavicon(url).catch(() => {});
+    return cached;
   }
   return refreshFavicon(url);
 }
@@ -438,17 +480,24 @@ async function loadFaviconImage(image, name, url) {
   if (image.dataset.faviconLoaded === 'true') return;
   image.dataset.faviconLoaded = 'true';
   const fallback = fallbackIcon(name, url);
+  const requestToken = String(Number(image.dataset.faviconRequestToken || 0) + 1);
+  image.dataset.faviconRequestToken = requestToken;
   try {
-    const blob = await getFaviconBlob(url);
-    if (!blob) return;
-    const objectUrl = URL.createObjectURL(blob);
-    image.addEventListener('load', () => URL.revokeObjectURL(objectUrl), { once: true });
-    image.src = objectUrl;
-  } catch { image.src = fallback; }
+    const source = await getFaviconSource(url);
+    if (image.dataset.faviconRequestToken !== requestToken || !source) return;
+    if (source.blob) {
+      const objectUrl = URL.createObjectURL(source.blob);
+      image.addEventListener('load', () => URL.revokeObjectURL(objectUrl), { once: true });
+      image.src = objectUrl;
+    } else if (source.sourceUrl) image.src = source.sourceUrl;
+    else throw new Error('Favicon source unavailable');
+  } catch {
+    if (image.dataset.faviconRequestToken === requestToken) image.src = fallback;
+  }
 }
 
 function createFavicon(item) {
-  const image = document.createElement('img'); const fallback = fallbackIcon(item.name, item.url); image.alt = ''; image.loading = 'lazy'; image.src = fallback;
+  const image = document.createElement('img'); const fallback = fallbackIcon(item.name, item.url); image.alt = ''; image.loading = 'lazy';
   image.dataset.faviconName = item.name || '';
   image.dataset.faviconUrl = item.url || '';
   image.addEventListener('error', () => { image.src = fallback; }, { once: true });
@@ -664,7 +713,7 @@ brandColorInput.addEventListener('input', () => void persistSettings(msg('savedC
 themeToggle.addEventListener('change', () => { themeLabel.textContent = msg(themeToggle.checked ? 'light' : 'dark'); void persistSettings(msg('savedMode', themeLabel.textContent)); });
 animationToggle.addEventListener('change', () => { void persistSettings(msg('savedAnimation')); });
 showLogoInput.addEventListener('change', () => { void persistSettings(msg('savedLogo')); });
-languageSelect.addEventListener('change', async () => { await persistSettings(msg('savedLanguage')); await loadLocale(); localize(); });
+languageSelect.addEventListener('change', async () => { await persistSettings(msg('savedLanguage')); await loadLocale(); localize(); await render(); });
 iconScaleInput.addEventListener('input', () => { iconScaleValue.value = `${Math.round(Number(iconScaleInput.value) * 100)}%`; void persistSettings(msg('savedIconSize')); });
 
 async function migrateLocalData() {

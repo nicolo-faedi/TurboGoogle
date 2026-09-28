@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "TurboGoogle",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "default_locale": "en",
   "description": "__MSG_description__",
   "background": {
@@ -9,7 +9,7 @@
   },
   "permissions": ["storage", "favicon"],
   "content_security_policy": {
-    "extension_pages": "script-src 'self'; object-src 'self'; img-src 'self' data:"
+    "extension_pages": "script-src 'self'; object-src 'self'; img-src 'self' data: http: https:"
   },
   "chrome_url_overrides": {
     "newtab": "newtab.html"

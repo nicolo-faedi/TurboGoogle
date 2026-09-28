@@ -57,8 +57,8 @@ button { cursor: pointer; }
 .footer-links { position: fixed; left: 24px; bottom: 22px; z-index: 2; display: flex; align-items: center; gap: 12px; }.coffee-link, .issue-link, .version-link { display: inline-flex; align-items: center; color: #bdc1c6; font-size: 12px; text-decoration: none; }.coffee-link { gap: 7px; }.version-link { font-size: 10px; opacity: .7; }.footer-separator { color: #5f6368; font-size: 12px; }.coffee-link img { width: 20px; height: 20px; object-fit: contain; }.coffee-link:hover, .issue-link:hover, .version-link:hover { color: #f1f3f4; text-decoration: underline; }
 .settings-button { width: 42px; height: 42px; border: 1px solid #5f6368; border-radius: 50%; color: #e8eaed; background: #303134; font-size: 19px; }.settings-button:hover { background: #3c4043; }
 .shortcut-dialog { width: min(100% - 32px, 420px); border: 0; border-radius: 8px; padding: 0; color: var(--text); background: #303134; box-shadow: 0 8px 28px rgba(0,0,0,.5); }
-.settings-dialog { width: min(100% - 32px, 360px); background: #303134; }
-.settings-dialog form { min-width: 0; }
+.settings-dialog { width: min(360px, calc(100vw - 32px)); max-width: calc(100vw - 32px); max-height: calc(100dvh - 32px); overflow: hidden; background: #303134; }
+.settings-dialog form { min-width: 0; max-width: 100%; max-height: calc(100dvh - 32px); overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; }
 .settings-dialog .dialog-header { margin-bottom: 22px; }
 .settings-dialog .dialog-actions { justify-content: flex-start; margin-top: 14px; }
 .settings-dialog .primary-button, .settings-dialog .secondary-button { min-height: 36px; }
